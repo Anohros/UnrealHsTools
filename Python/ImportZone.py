@@ -66,7 +66,7 @@ def _generate_fbx_import_task(filename, destination_path, destination_name=None,
 
     # Materials
     task.options.texture_import_data.material_search_location = unreal.MaterialSearchLocation.DO_NOT_SEARCH
-    task.options.texture_import_data.base_material_name = unreal.SoftObjectPath("/Game/Zone/M_ObjectMaster")
+    task.options.texture_import_data.base_material_name = unreal.SoftObjectPath("/Game/HeavenStones/Zone/M_ObjectBase")
     task.options.texture_import_data.base_diffuse_texture_name = "Color"
 
     task.options.mesh_type_to_import = unreal.FBXImportType.FBXIT_STATIC_MESH
