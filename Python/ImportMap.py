@@ -110,7 +110,7 @@ def spawnActorOnLandscape(name, assetReference, positionX, positionY, positionZ,
 
     spawnActor(name, assetReference, positionX, positionY, positionZ, rotationX, rotationY, rotationZ)
 
-for file in glob.glob("C:/Users/<path to an extracted and converted map folder>/*/areadata.txt"):
+for file in glob.glob("C:/Users/<path to an extracted map folder>/*/areadata.txt"):
     with open(file, "r") as reader:
         line = reader.readline()
         while line != '':
