@@ -1,13 +1,17 @@
 import unreal
 import glob
 
+# Settings
+
+path = 'C:/Users/<path to an extracted and converted zone folder with fbx files>'
+
 def _unreal_import_fbx_asset(input_path, destination_path, destination_name):
-    """
+    '''
     Import an FBX into Unreal Content Browser
     :param input_path: The fbx file to import
     :param destination_path: The Content Browser path where the asset will be placed
     :param destination_name: The asset name to use; if None, will use the filename without extension
-    """
+    '''
     tasks = []
     tasks.append(_generate_fbx_import_task(input_path, destination_path, destination_name))
 
@@ -16,23 +20,23 @@ def _unreal_import_fbx_asset(input_path, destination_path, destination_name):
     first_imported_object = None
 
     for task in tasks:
-        unreal.log("Import Task for: {}".format(task.filename))
+        unreal.log('Import Task for: {}'.format(task.filename))
         for object_path in task.imported_object_paths:
-            unreal.log("Imported object: {}".format(object_path))
+            unreal.log('Imported object: {}'.format(object_path))
             if not first_imported_object:
                 first_imported_object = object_path
 
     return first_imported_object
-   
+
 def _generate_fbx_import_task(filename, destination_path, destination_name=None, replace_existing=True,
                              automated=True, save=True, materials=True,
                              textures=True, as_skeletal=False):
-    """
+    '''
     Create and configure an Unreal AssetImportTask
     :param filename: The fbx file to import
     :param destination_path: The Content Browser path where the asset will be placed
     :return the configured AssetImportTask
-    """
+    '''
     task = unreal.AssetImportTask()
     task.filename = filename
     task.destination_path = destination_path
@@ -66,8 +70,8 @@ def _generate_fbx_import_task(filename, destination_path, destination_name=None,
 
     # Materials
     task.options.texture_import_data.material_search_location = unreal.MaterialSearchLocation.DO_NOT_SEARCH
-    task.options.texture_import_data.base_material_name = unreal.SoftObjectPath("/Game/HeavenStones/Zone/M_ObjectBase")
-    task.options.texture_import_data.base_diffuse_texture_name = "Color"
+    task.options.texture_import_data.base_material_name = unreal.SoftObjectPath('/Game/HeavenStones/Meshes/Zone/M_ObjectBase')
+    task.options.texture_import_data.base_diffuse_texture_name = 'Color'
 
     task.options.mesh_type_to_import = unreal.FBXImportType.FBXIT_STATIC_MESH
     if as_skeletal:
@@ -75,12 +79,10 @@ def _generate_fbx_import_task(filename, destination_path, destination_name=None,
 
     return task
 
-path = "C:/Users/<path to an extracted and converted zone folder with fbx files>"
-
-for file in glob.glob(path + "/**/*.fbx", recursive=True):
+for file in glob.glob(path + '/**/*.fbx', recursive=True):
     relativePath = file[len(path):]
-    relativePath = relativePath.strip("/\\")
-    relativePath = relativePath.replace("\\", "/")
-    relativePath = relativePath.rsplit("/", 1)
-    filenameWithoutExtension = relativePath[1].rsplit(".", 1)
-    _unreal_import_fbx_asset(file, "/Game/Zone/" + relativePath[0], filenameWithoutExtension[0])
+    relativePath = relativePath.strip('/\\')
+    relativePath = relativePath.replace('\\', '/')
+    relativePath = relativePath.rsplit('/', 1)
+    filenameWithoutExtension = relativePath[1].rsplit('.', 1)
+    _unreal_import_fbx_asset(file, '/Game/HeavenStones/Meshes/Zone/' + relativePath[0], filenameWithoutExtension[0])
